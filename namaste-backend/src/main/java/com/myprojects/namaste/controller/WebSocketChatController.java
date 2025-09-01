@@ -13,6 +13,8 @@ import com.myprojects.namaste.model.User;
 import com.myprojects.namaste.repository.MessageRepository;
 import com.myprojects.namaste.repository.UserRepository;
 
+import io.swagger.v3.oas.annotations.Operation;
+
 @Controller
 public class WebSocketChatController {
 
@@ -30,10 +32,12 @@ public class WebSocketChatController {
 
     // Receive from /app/chat.send and send to /queue/{receiver}
     @MessageMapping("/chat.send")
+    @Operation(summary = "Send Message to user", 
+               description = "API to send messgae")
     public void sendMessage(@Payload ChatMessage message) {
-        User sender = userRepository.findByPhoneno(message.getSender())
+        User sender = userRepository.findByContactNo(message.getSender())
             .orElseThrow(() -> new UsernameNotFoundException("Sender not found"));
-        User receiver = userRepository.findByPhoneno(message.getReceiver())
+        User receiver = userRepository.findByContactNo(message.getReceiver())
                 .orElseThrow(() -> new UsernameNotFoundException("Receiver not found"));
         // Save message
         Message entity = new Message();

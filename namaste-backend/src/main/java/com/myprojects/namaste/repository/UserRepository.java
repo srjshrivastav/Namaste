@@ -7,6 +7,8 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User, Long> {
 
     // Custom finder method
-    Optional<User> findByPhoneno(String phone);
+    Optional<User> findByContactNo(String phone);
+    Optional<User> findByUsernameOrContactNo(String username, String ContactNo);
+    public boolean existsByUsername(String username);
 }
 
